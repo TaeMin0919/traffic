@@ -1,0 +1,80 @@
+﻿
+TYPES BEGIN OF TRAFFIC
+
+TYPES : MODEL      TYPE ZMODEL_00,
+
+TYPES END OF TRAFFIC.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+﻿DATA : ok_code TYPE sy-ucomm.
+DATA : go_countainer TYPE REF TO cl_gui_custom_container.
+DATA : go_alv TYPE REF TO cl_gui_alv_grid.
+DATA : gt_grade TYPE TABLE OF t_grade.
+DATA : gv_gender TYPE c.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CASE 'HYUNDAI'.
+  WHEN p_male.
+    SELECT a~id a~name a~phone a~birthday b~class b~grade c~cname
+      INTO CORRESPONDING FIELDS OF TABLE gt_grade
+      FROM zstd_19 AS a INNER JOIN zstdc_19 AS b
+      ON a~id = b~id
+      INNER JOIN zsub_19 AS c
+      ON b~class = c~class
+      WHERE a~id IN so_id
+      AND a~name IN so_name
+      AND a~gender = '현대'.
+
+
+
+
+
+
+
+
+
+GO_ALV
+CL_GUI_AL_GRID
+SET_TABLE_FOR_FIRST_DISPLAY
+
+
+
+
+
+
+
+PROCESS BEFORE OUTPUT.
+ MODULE STATUS_0100.
+   MODULE CLEAR_CODE.
+   MODULE ALV_CREATE.
+
+PROCESS AFTER INPUT.
+ MODULE USER_COMMAND_0100.
+   MODULE EXIT AT EXIT-COMMAND.
